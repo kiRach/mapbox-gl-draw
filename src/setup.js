@@ -7,7 +7,7 @@ var drawTheme =  require('./theme/draw');
 
 module.exports = function(ctx) {
 
-  events(ctx);
+  ctx.events = events(ctx);
   ctx.map = null;
   ctx.container = null;
   ctx.store = null;
@@ -63,26 +63,6 @@ module.exports = function(ctx) {
       setup.removeLayers();
       ctx.ui.removeButtons();
       setup.removeEventListeners();
-    },
-    addEventListeners: function() {
-      ctx.map.on('click', ctx.onClick);
-      ctx.map.on('dblclick', ctx.onDoubleClick);
-      ctx.map.on('mousemove', ctx.onMouseMove);
-
-      ctx.container.addEventListener('mousedown', ctx.onMouseDown);
-      ctx.container.addEventListener('mouseup', ctx.onMouseUp);
-
-      ctx.container.addEventListener('keydown', ctx.onKeyDown);
-      ctx.container.addEventListener('keyup', ctx.onKeyUp);
-    },
-    removeEventListeners: function() {
-      ctx.map.off('click', ctx.onClick);
-      ctx.map.off('dblclick', ctx.onDoubleClick);
-      ctx.map.off('mousemove', ctx.onMouseMove);
-      ctx.container.removeEventListener('mousedown', ctx.onMouseDown);
-      ctx.container.removeEventListener('mouseup', ctx.onMouseUp);
-      ctx.container.removeEventListener('keydown', ctx.onKeyDown);
-      ctx.container.removeEventListener('keyup', ctx.onKeyUp);
     },
     addLayers: function() {
       ctx.map.batch((batch) => {

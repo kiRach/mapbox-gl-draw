@@ -59,7 +59,7 @@ API.prototype.delete = function(id) {
 }
 
 API.prototype.deleteAll = function() {
-  this.ctx.store.getAll().forEach(feature => feature.delete());
+  this.ctx.store.getAll().forEach(feature => this.ctx.store.delete(feature.id));
 }
 
 API.prototype.startDrawing = function () {
