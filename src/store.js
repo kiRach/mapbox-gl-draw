@@ -34,7 +34,7 @@ Store.prototype.getAll = function() {
   return Object.keys(this.features).map(id => this.features[id]);
 }
 
-Store.prototype.remove = function (id) {
+Store.prototype.delete = function (id) {
   var feature = this.get(id);
   if (feature) {
     delete this.features[id];

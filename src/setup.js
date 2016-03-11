@@ -24,7 +24,7 @@ module.exports = function(ctx) {
   var setup = {
     addTo: function(map) {
         ctx.map = map;
-        ctx.container = setup.onAdd(map);
+        setup.onAdd(map);
         if (this.options && this.options.position) {
             var pos = this.options.position;
             var corner = map._controlCorners[pos];
@@ -38,15 +38,15 @@ module.exports = function(ctx) {
         return this;
     },
     remove: function() {
-        ctx.container.parentNode.removeChild(ctx.container);
-        if (this.onRemove) this.onRemove(ctx.map);
-        ctx.map = null;
-        ctx.container = null;
-        ctx.store = null;
-        return this;
+      ctx.container.parentNode.removeChild(ctx.container);
+      setup.onRemove();
+      ctx.map = null;
+      ctx.container = null;
+      ctx.store = null;
+      return this;
     },
     onAdd: function(map) {
-      var container = DOM.create('div', 'mapboxgl-ctrl-group', map.getContainer());
+      ctx.container = DOM.create('div', 'mapboxgl-ctrl-group', map.getContainer());
       ctx.store = new Store(ctx);
 
       if (ctx.options.drawing) {
@@ -62,10 +62,8 @@ module.exports = function(ctx) {
           setup.addLayers();
         });
       }
-
-      return container;
     },
-    remove: function() {
+    onRemove: function() {
       setup.removeLayers();
       ctx.ui.removeButtons();
       ctx.events.removeEventListeners();

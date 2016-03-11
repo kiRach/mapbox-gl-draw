@@ -73,12 +73,12 @@ API.prototype.update = function(id, geojson) {
   }
 }
 
-API.prototype.remove = function(id) {
-  this.ctx.store.remove(id);
+API.prototype.delete = function(id) {
+  this.ctx.store.delete(id);
 }
 
-API.prototype.removeAll = function() {
-  this.ctx.store.getAll().forEach(feature => this.ctx.store.remove(feature.id));
+API.prototype.deleteAll = function() {
+  this.ctx.store.getAll().forEach(feature => this.ctx.store.delete(feature.id));
 }
 
 API.prototype.startDrawing = function () {

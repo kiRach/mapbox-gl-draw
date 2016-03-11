@@ -140,7 +140,7 @@ location.hash.replace(/^#/,'').split('/').reduce(function(args, val, i, hash){
     console.log('Get All has ids', all.features.filter(function(feature){
       return feature.id === firstId || feature.id === secondId;
     }).length === 2);
-    Draw.remove(secondId);
+    Draw.delete(secondId);
     console.log('Destroy', Draw.get(secondId), '-> undefined');
 
     var currentId = 'this-is-a-test';
@@ -149,7 +149,7 @@ location.hash.replace(/^#/,'').split('/').reduce(function(args, val, i, hash){
     var getWithCurrent = Draw.get(currentId);
     console.log('and can get features', getWithCurrent.id, '->', thridId);
 
-    Draw.removeAll();
+    Draw.deleteAll();
     console.log(Draw.get(firstId), '-> undefined');
   });
 
