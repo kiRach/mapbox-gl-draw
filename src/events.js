@@ -53,7 +53,7 @@ module.exports = function(ctx) {
       currentMode.stop();
       currentMode = ModeHandler(mode);
     },
-    stop: function() {
+    stopMode: function() {
       api.startMode(browse(ctx));
     },
     addEventListeners: function() {

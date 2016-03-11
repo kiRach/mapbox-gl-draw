@@ -12,21 +12,13 @@ var Feature = function(ctx, geojson) {
   }
 }
 
-Feature.prototype.updateCoordinate = function(path, lon, lat) {
-  path = path + '';
-  var ids = path.split('.').map(x => parseInt(x, 10));
-  if (this.coordinates[ids[0]] === undefined) {
-    this.coordinates[ids[0]] = [];
+Feature.prototype.updateCoordinate = function(idx, lon, lat) {
+  idx = parseInt(idx, 10);
+  if (this.coordinates[idx] === undefined) {
+    this.coordinates[idx] = [];
   }
-  var coordinate = this.coordinates[ids[0]] || [];
-  for(var i=1; i<ids.length; i++) {
-    if (coordinate[ids[i]] === undefined) {
-      coordinate.push([]);
-    }
-    coordinate = coordinate[ids[i]];
-  }
-  coordinate[0] = lon;
-  coordinate[1] = lat;
+  this.coordinates[idx][0] = lon;
+  this.coordinates[idx][1] = lat;
   this.ctx.store.render();
 }
 

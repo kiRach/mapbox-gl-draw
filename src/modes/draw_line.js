@@ -1,10 +1,21 @@
-var stopOnEscape = require('./common_events/stop_on_escape');
-
 var selectAll = function() {
   return true;
 }
 
+var isEscapeKey = function(e) {
+  return e.keyCode === 27;
+}
+
+var isEnterKey = function(e) {
+  return e.keyCode === 13;
+}
+
 module.exports = function(ctx, feature) {
+
+  var stopDrawingAndRemove = function() {
+    ctx.events.stopMode();
+    ctx.store.delete(feature.id);
+  }
 
   var firstMove = function(e) {
     feature.updateCoordinate(0, e.lngLat.lng, e.lngLat.lat);
@@ -24,15 +35,30 @@ module.exports = function(ctx, feature) {
   }
 
   var afterClick = function(e) {
+    // did we click on the last point
+    // did we click on the first point
     pos++;
     console.log(feature.coordinates);
+  }
+
+  var onFinish = function(e) {
+    if(feature.type === 'LineString' && pos < 2) {
+      stopDrawingAndRemove();
+    }
+    else if (feature.type === 'Polygon' && pos < 3) {
+      stopDrawingAndRemove();
+    }
+    else {
+      ctx.events.stopMode();
+    }
   }
 
   return {
     start: function() {
       this.on('onMouseMove', selectAll, firstMove);
       this.on('onClick', selectAll, firstClick);
-      stopOnEscape(this, ctx);
+      this.on('onKeyUp', isEscapeKey, stopDrawingAndRemove);
+      this.on('onKeyUp', isEnterKey, onFinish);
     },
     stop: function() {
 
