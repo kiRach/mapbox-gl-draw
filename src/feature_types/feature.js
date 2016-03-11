@@ -14,11 +14,11 @@ var Feature = function(ctx, geojson) {
 
 Feature.prototype.updateCoordinate = function(path, lon, lat) {
   path = path + '';
-  var ids = path.split('.').map(x => parseInt(x, 10));
-  if (this.coordinates[ids[0]] === undefined) {
+  var ids = path === '' ? [] : path.split('.').map(x => parseInt(x, 10));
+  if (this.coordinates[ids[0]] === undefined && ids.length > 0) {
     this.coordinates[ids[0]] = []
   }
-  var coordinate = this.coordinates[ids[0]] || [];
+  var coordinate = ids.length === 0 ? this.coordinates : (this.coordinates[ids[0]] || []);
   for(var i=1; i<ids.length; i++) {
     if (coordinate[ids[i]] === undefined) {
       coordinate.push([]);

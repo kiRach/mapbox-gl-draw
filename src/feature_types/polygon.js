@@ -1,5 +1,5 @@
 var Feature =  require('./feature');
-var DrawPolygon = require('../modes/draw_polygon');
+var drawPolygon = require('../modes/draw_polygon');
 
 var Polygon = function(ctx, geojson) {
   Feature.call(this, ctx, geojson);
@@ -24,9 +24,7 @@ Polygon.startDrawing = function(ctx) {
 
     var polygon = new Polygon(ctx, geojson);
 
-    var drawLine = DrawPolygon(ctx, polygon);
-
-    ctx.events.startMode(drawLine);
+    ctx.events.startMode(drawPolygon(ctx, polygon));
 }
 
 module.exports = Polygon;

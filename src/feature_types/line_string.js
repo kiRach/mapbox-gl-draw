@@ -1,5 +1,5 @@
 var Feature =  require('./feature');
-var DrawLine = require('../modes/draw_line');
+var drawLine = require('../modes/draw_line');
 
 var LineString = function(ctx, geojson) {
   Feature.call(this, ctx, geojson);
@@ -23,9 +23,7 @@ LineString.startDrawing = function(ctx) {
 
     var line = new LineString(ctx, geojson);
 
-    var drawLine = DrawLine(ctx, line);
-
-    ctx.events.startMode(drawLine);
+    ctx.events.startMode(drawLine(ctx, line));
 }
 
 module.exports = LineString;
