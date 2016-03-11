@@ -85,6 +85,7 @@ module.exports = function(ctx) {
         return handler.selector !== selector || handler.fn !== fn;
       });
     },
+    reset: function() {},
     addEventListeners: function() {
       ctx.map.on('click', events.onClick);
       ctx.map.on('dblclick', events.onDoubleClick);

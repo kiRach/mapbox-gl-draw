@@ -82,6 +82,7 @@ API.prototype.deleteAll = function() {
 }
 
 API.prototype.startDrawing = function () {
+  console.log(this instanceof API, this.ctx);
   this.ctx.events.reset();
 
   // this._handleDrawFinished();

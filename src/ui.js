@@ -17,7 +17,7 @@ module.exports = function(ctx) {
         buttons[types.LINE] = createButton(controlContainer, {
           className: `${controlClass} mapbox-gl-draw_line`,
           title: `LineString tool ${ctx.options.keybindings && '(l)'}`,
-          fn: ctx.api.startDrawing.bind(this, types.LINE),
+          fn: () => ctx.api.startDrawing(types.LINE)
         }, controlClass);
       }
 
@@ -25,7 +25,7 @@ module.exports = function(ctx) {
         buttons[types.POLYGON] = createButton(controlContainer, {
           className: `${controlClass} mapbox-gl-draw_polygon`,
           title: `Polygon tool ${ctx.options.keybindings && '(p)'}`,
-          fn: ctx.api.startDrawing.bind(this, types.POLYGON),
+          fn: () => ctx.api.startDrawing(types.POLYGON)
         }, controlClass);
       }
 
@@ -33,7 +33,7 @@ module.exports = function(ctx) {
         buttons[types.POINT] = createButton(controlContainer, {
           className: `${controlClass} mapbox-gl-draw_point`,
           title: `Marker tool ${ctx.options.keybindings && '(m)'}`,
-          fn: ctx.api.startDrawing.bind(this, types.POINT),
+          fn: () => ctx.api.startDrawing(types.POINT)
         }, controlClass);
       }
 
