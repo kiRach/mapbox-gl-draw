@@ -1,6 +1,8 @@
 var events = require('./events');
-var store = require('./store');
+var Browse = require('./modes/browse');
+var Store = require('./store');
 var ui = require('./ui');
+var DOM = require('./util').DOM;
 
 var drawSelectedTheme =  require('./theme/draw-selected');
 var drawTheme =  require('./theme/draw');
@@ -8,6 +10,10 @@ var drawTheme =  require('./theme/draw');
 module.exports = function(ctx) {
 
   ctx.events = events(ctx);
+
+  var browse = Browse(ctx);
+  browse.start();
+
   ctx.map = null;
   ctx.container = null;
   ctx.store = null;
@@ -48,11 +54,11 @@ module.exports = function(ctx) {
       }
 
       if (map.style.loaded()) { // not public
-        setup.addEventListeners();
+        ctx.events.addEventListeners();
         setup.addLayers();
       } else {
         map.on('load', () => {
-          setup.addEventListeners();
+          ctx.events.addEventListeners();
           setup.addLayers();
         });
       }
@@ -62,7 +68,7 @@ module.exports = function(ctx) {
     remove: function() {
       setup.removeLayers();
       ctx.ui.removeButtons();
-      setup.removeEventListeners();
+      ctx.events.removeEventListeners();
     },
     addLayers: function() {
       ctx.map.batch((batch) => {

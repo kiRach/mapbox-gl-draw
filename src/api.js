@@ -5,7 +5,20 @@ var API = module.exports = function(ctx) {
 }
 
 API.prototype.add = function (geojson, opts) {
-  this.ctx.store.add(geojson, opts);
+  var feature = JSON.parse(JSON.stringify(geojson));
+  if (feature.type === 'FeatureCollection') {
+    return feature.features.map(subFeature => this.add(subFeature, options));
+  }
+
+  if (!feature.geometry) {
+    feature = {
+      type: 'Feature',
+      id: feature.id,
+      properties: feature.properties || {},
+      geometry: feature
+    };
+  }
+  return this.ctx.store.add(feature, opts);
 }
 
 API.prototype.get = function (id) {
@@ -16,13 +29,19 @@ API.prototype.get = function (id) {
 }
 
 API.prototype.getAll = function() {
-  return this.ctx.store.getAll().map(feature => feature.toGeoJSON());
+  return {
+    type: 'FeatureCollection',
+    features: this.ctx.store.getAll().map(feature => feature.toGeoJSON())
+  }
 }
 
 API.prototype.getSelected = function() {
-  return this.ctx.store.getAll()
+  return {
+    type: 'FeatureCollection',
+    features: this.ctx.store.getAll()
     .filter(feature => feature.isSelected())
-    .map(feature => feature.toGeoJSON());
+    .map(feature => feature.toGeoJSON())
+  }
 }
 
 API.prototype.select = function (id) {
@@ -50,16 +69,16 @@ API.prototype.unselectAll = function () {
 API.prototype.update = function(id, geojson) {
   var feature = this.ctx.store.get(id);
   if (feature) {
-    feature.update(geojson);
+    feature.update(JSON.parse(JSON.stringify(geojson)));
   }
 }
 
-API.prototype.delete = function(id) {
-  this.ctx.store.delete(id);
+API.prototype.remove = function(id) {
+  this.ctx.store.remove(id);
 }
 
-API.prototype.deleteAll = function() {
-  this.ctx.store.getAll().forEach(feature => this.ctx.store.delete(feature.id));
+API.prototype.removeAll = function() {
+  this.ctx.store.getAll().forEach(feature => this.ctx.store.remove(feature.id));
 }
 
 API.prototype.startDrawing = function () {

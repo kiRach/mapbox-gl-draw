@@ -4,35 +4,87 @@ module.exports = function(ctx) {
   var isDown = false;
 
   var events = {};
+  var handlers = {
+    onDrag: [],
+    onClick: [],
+    onDoubleClick: [],
+    onMouseMove: [],
+    onMouseDown: [],
+    onMouseUp: [],
+    onKeyDown: [],
+    onKeyUp: []
+  };
 
-  events.onDrag = function() {}
-  events.onClick = function() {}
-  events.onDoubleClick = function() {}
-  events.onMouseMove  = function() {
+  function delegate(eventName, event) {
+    var handles = handlers[eventName];
+    var iHandle = handles.length;
+    while (iHandle--) {
+      var handle = handles[iHandle];
+      if (handle.selector(event)) {
+        handle.fn(event);
+        break;
+      }
+    }
+  }
+
+  events.onDrag = function(event) {
+    delegate('onDrag', event);
+  };
+
+  events.onClick = function(event) {
+    // should do features at
+    delegate('onClick', event);
+  };
+
+  events.onDoubleClick = function(event) {
+    delegate('onDoubleClick', event);
+  };
+
+  events.onMouseMove  = function(event) {
     if (isDown) {
-      events.onDrag();
+      events.onDrag(event);
     }
     else {
+      delegate('onMouseMove', event);
+    }
+  };
 
-    }
-  }
-  events.onMouseDown  = function() {
+  events.onMouseDown  = function(event) {
     isDown = true;
-  }
-  events.onMouseUp  = function() {
+    delegate('onMouseDown', event);
+  };
+
+  events.onMouseUp  = function(event) {
     isDown = false;
-  }
-  events.onKeyDown  = function() {}
-  events.onKeyUp  = function() {
-    if(ctx.options.keybindings) {
-      // do more than normal
-    }
-    else {
-      // handle enter and escape when we need too anyway
-    }
+    delegate('onMouseUp', event);
+  };
+
+  events.onKeyDown  = function(event) {
+    delegate('onKeyDown', event);
+  };
+
+  events.onKeyUp  = function(event) {
+    // if(ctx.options.keybindings) {
+    //   // do more than normal
+    // }
+    // else {
+    //   // handle enter and escape when we need too anyway
+    // }
+    delegate('onKeyUp', event);
   }
 
   return {
+    on: function(event, selector, fn) {
+      handlers[event].push({
+        selector: selector,
+        fn: fn
+      });
+    },
+    off: function(event, selector, fn) {
+      handlers[event] = handlers[event].filter(handler => {
+        return handler.selector !== selector || handler.fn !== fn;
+      });
+    },
     addEventListeners: function() {
       ctx.map.on('click', events.onClick);
       ctx.map.on('dblclick', events.onDoubleClick);
