@@ -17,15 +17,15 @@ module.exports = function(ctx, feature) {
     ctx.store.delete(feature.id);
   }
 
-  var pos = 0
+  var pos = 0;
 
   var onMouseMove = function(e) {
     if(pos === 0) {
-      feature.updateCoordinate(0, e.lngLat.lng, e.lngLat.lat);
-      feature.updateCoordinate(1, e.lngLat.lng, e.lngLat.lat);
+      feature.updateCoordinate(`0.${0}`, e.lngLat.lng, e.lngLat.lat);
+      feature.updateCoordinate(`0.${1}`, e.lngLat.lng, e.lngLat.lat);
     }
     else {
-      feature.updateCoordinate(pos, e.lngLat.lng, e.lngLat.lat);
+      feature.updateCoordinate(`0.${pos}`, e.lngLat.lng, e.lngLat.lat);
     }
   }
 
@@ -37,7 +37,7 @@ module.exports = function(ctx, feature) {
   }
 
   var onFinish = function(e) {
-    if(pos < 2) {
+    if(pos < 3) {
       stopDrawingAndRemove();
     }
     else {

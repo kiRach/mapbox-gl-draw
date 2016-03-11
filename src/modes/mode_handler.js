@@ -48,7 +48,7 @@ var ModeHandler = function(mode) {
     onClick: function(event) {
       delegate('onClick', event);
     },
-    onDoubleClic: function(event) {
+    onDoubleClick: function(event) {
       delegate('onDoubleClick', event);
     },
     onMouseMove: function(event) {
