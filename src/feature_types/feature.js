@@ -13,9 +13,16 @@ var Feature = function(ctx, geojson) {
 }
 
 Feature.prototype.updateCoordinate = function(path, lon, lat) {
+  path = path + '';
   var ids = path.split('.').map(x => parseInt(x, 10));
-  var coordinate = this.coordinates[ids[0]];
+  if (this.coordinates[ids[0]] === undefined) {
+    this.coordinates[ids[0]] = [];
+  }
+  var coordinate = this.coordinates[ids[0]] || [];
   for(var i=1; i<ids.length; i++) {
+    if (coordinate[ids[i]] === undefined) {
+      coordinate.push([]);
+    }
     coordinate = coordinate[ids[i]];
   }
   coordinate[0] = lon;

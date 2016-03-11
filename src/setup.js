@@ -1,5 +1,4 @@
 var events = require('./events');
-var Browse = require('./modes/browse');
 var Store = require('./store');
 var ui = require('./ui');
 var DOM = require('./util').DOM;
@@ -10,9 +9,6 @@ var drawTheme =  require('./theme/draw');
 module.exports = function(ctx) {
 
   ctx.events = events(ctx);
-
-  var browse = Browse(ctx);
-  browse.start();
 
   ctx.map = null;
   ctx.container = null;

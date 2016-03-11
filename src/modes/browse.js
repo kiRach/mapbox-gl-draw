@@ -10,10 +10,10 @@ module.exports = function(ctx) {
 
   return {
     start: function() {
-      ctx.events.on('onClick', selectAll, onClick);
+      this.on('onClick', selectAll, onClick);
     },
     stop: function() {
-      ctx.events.off('onClick', selectAll, onClick);
+      console.log('I guess you don\' want to browse any more');
     }
   }
 }

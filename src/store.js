@@ -1,11 +1,3 @@
-var featureTypes = {
-  "Polygon": require('./feature_types/polygon'),
-  "LineString": require('./feature_types/line_string'),
-  "Point": require('./feature_types/point')
-}
-
-var hat = require('hat');
-
 var Store = module.exports = function(ctx) {
   this.ctx = ctx;
   this.features = {};
@@ -13,17 +5,9 @@ var Store = module.exports = function(ctx) {
 
 Store.prototype.render = function() {};
 
-Store.prototype.add = function(geojson, options) {
-  geojson.id = geojson.id || hat();
-  var model = featureTypes[geojson.geometry.type];
-
-  if(model === undefined) {
-    throw new Error('Invalid feature type. Must be Point, Polygon or LineString');
-  }
-
-  var feature = new model(this.ctx, geojson);
-  this.features[geojson.id] = feature;
-  return geojson.id;
+Store.prototype.add = function(feature) {
+  this.features[feature.id] = feature;
+  return feature.id;
 }
 
 Store.prototype.get = function(id) {
