@@ -32,14 +32,11 @@
   background-repeat: no-repeat;
   background-position: center;
 }
-.mapbox-gl-draw_marker {
-  background-image: url('svg/marker.svg');
+.mapbox-gl-draw_point {
+  background-image: url('svg/point.svg');
 }
-.mapbox-gl-draw_shape {
-  background-image: url('svg/shape.svg');
-}
-.mapbox-gl-draw_square {
-  background-image: url('svg/square.svg');
+.mapbox-gl-draw_polygon {
+  background-image: url('svg/polygon.svg');
 }
 .mapbox-gl-draw_line {
   background-image: url('svg/line.svg');

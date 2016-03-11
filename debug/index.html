@@ -10,7 +10,7 @@
     body { margin:0; padding:0; }
     html, body, #map { height: 100%; }
     .start-draw {
-      width: 330px;
+      width: 237px;
       position: absolute;
       left :10px;
       bottom: 10px;
@@ -37,7 +37,6 @@
   <div id='start-point'>POINT</div>
   <div id='start-line'>LINE</div>
   <div id='start-polygon'>POLYGON</div>
-  <div id='start-square'>SQUARE</div>
 </div>
 <div class='toggle'>
   <button id='addBtn'>add draw</button>
@@ -96,7 +95,7 @@ location.hash.replace(/^#/,'').split('/').reduce(function(args, val, i, hash){
     var startPoint = document.getElementById('start-point');
     var startLine = document.getElementById('start-line');
     var startPolygon = document.getElementById('start-polygon');
-    var startSquare = document.getElementById('start-square');
+
 
     startPoint.onclick = function() {
       Draw.startDrawing(Draw.types.POINT);
@@ -108,10 +107,6 @@ location.hash.replace(/^#/,'').split('/').reduce(function(args, val, i, hash){
 
     startPolygon.onclick = function() {
       Draw.startDrawing(Draw.types.POLYGON);
-    };
-
-    startSquare.onclick = function() {
-      Draw.startDrawing(Draw.types.SQUARE);
     };
 
 

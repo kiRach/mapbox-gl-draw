@@ -17,7 +17,7 @@ module.exports = function(ctx) {
   ctx.map = null;
   ctx.container = null;
   ctx.store = null;
-  ctx.ui = ui(ctx);
+  ui(ctx);
 
   var buttons = {};
 
@@ -38,7 +38,6 @@ module.exports = function(ctx) {
         return this;
     },
     remove: function() {
-      ctx.container.parentNode.removeChild(ctx.container);
       setup.onRemove();
       ctx.map = null;
       ctx.container = null;
@@ -46,7 +45,7 @@ module.exports = function(ctx) {
       return this;
     },
     onAdd: function(map) {
-      ctx.container = DOM.create('div', 'mapboxgl-ctrl-group', map.getContainer());
+      ctx.container = map.getContainer();
       ctx.store = new Store(ctx);
 
       if (ctx.options.drawing) {
