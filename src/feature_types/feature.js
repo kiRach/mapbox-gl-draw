@@ -16,7 +16,7 @@ var Feature = function(ctx, geojson) {
   ctx.store.add(this);
 }
 
-Feature.prototype.updateCoordinate = function(path, lon, lat) {
+Feature.prototype.updateCoordinate = function(path, lng, lat) {
   path = path + '';
   var ids = path === '' ? [] : path.split('.').map(x => parseInt(x, 10));
   if (this.coordinates[ids[0]] === undefined && ids.length > 0) {
@@ -29,7 +29,7 @@ Feature.prototype.updateCoordinate = function(path, lon, lat) {
     }
     coordinate = coordinate[ids[i]];
   }
-  coordinate[0] = lon;
+  coordinate[0] = lng;
   coordinate[1] = lat;
   this.ctx.store.render();
 }

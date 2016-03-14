@@ -12,6 +12,15 @@ var Polygon = function(ctx, geojson) {
 
 Polygon.prototype = Object.create(Feature.prototype);
 
+Polygon.prototype.addVertex = function(path, lng, lat) {
+  var ids = path.split('.').map(x => parseInt(x, 10));
+
+  var ring = this.coordinates[ids[0]];
+
+  ring.splice(ids[1], 0, [lng, lat]);
+  this.ctx.store.render();
+}
+
 Polygon.prototype.getCoordinates = function() {
   return this.coordinates.map(coords => coords.concat([coords[0]]));
 }
@@ -24,17 +33,13 @@ Polygon.prototype.getSourceFeatures = function() {
   for (var i = 0; i<geojson.geometry.coordinates.length; i++) {
     var ring = geojson.geometry.coordinates[i];
     for (var j = 0; j<ring.length; j++) {
-      var path = `${i}.${j}`;
       var coord = ring[j];
-      vertices.push(toVertex(coord, {
-        path: path,
-        parent: geojson.id
-      }));
+      vertices.push(toVertex(this.id, coord, `${i}.${j}`));
 
       if (j > 0) {
         var start = vertices[j-1];
         var end = vertices[j];
-        midpoints.push(toMidpoint(start, end, this.ctx.map));
+        midpoints.push(toMidpoint(this.id, start, end, this.ctx.map));
       }
     }
   }

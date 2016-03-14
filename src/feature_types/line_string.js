@@ -11,6 +11,12 @@ var LineString = function(ctx, geojson) {
 
 LineString.prototype = Object.create(Feature.prototype);
 
+LineString.prototype.addVertex = function(path, lng, lat) {
+  var id = parseInt(path, 10);
+  this.coordinates.splice(id, 0, [lng, lat]);
+  this.ctx.store.render();
+}
+
 LineString.prototype.getSourceFeatures = function() {
   var geojson = this.internalGeoJSON();
   var midpoints = [];
@@ -18,15 +24,12 @@ LineString.prototype.getSourceFeatures = function() {
 
   for (var i = 0; i<geojson.geometry.coordinates.length; i++) {
     var coord = geojson.geometry.coordinates[i];
-    vertices.push(toVertex(coord, {
-      path: ''+i,
-      parent: geojson.id
-    }));
+    vertices.push(toVertex(this.id, coord, `${i}`));
 
     if (i > 0) {
       var start = vertices[i-1];
       var end = vertices[i];
-      midpoints.push(toMidpoint(start, end, this.ctx.map));
+      midpoints.push(toMidpoint(this.id, start, end, this.ctx.map));
     }
   }
 

@@ -15,14 +15,14 @@ module.exports = function(ctx) {
 
   events.onClick = function(event) {
     findTaragetAt(event, ctx, function(target) {
-      event.target = target;
+      event.featureTarget = target;
       currentMode.onClick(event);
     });
   };
 
   events.onDoubleClick = function(event) {
     findTaragetAt(event, ctx, function(target) {
-      event.target = target;
+      event.featureTarget = target;
       currentMode.onDoubleClick(event);
     });
   };
@@ -33,7 +33,7 @@ module.exports = function(ctx) {
     }
     else {
       findTaragetAt(event, ctx, function(target) {
-        event.target = target;
+        event.featureTarget = target;
         currentMode.onMouseMove(event);
       });
     }
@@ -42,7 +42,7 @@ module.exports = function(ctx) {
   events.onMouseDown  = function(event) {
     isDown = true;
     findTaragetAt(event, ctx, function(target) {
-      event.target = target;
+      event.featureTarget = target;
       currentMode.onMouseDown(event);
     });
   };
@@ -50,7 +50,7 @@ module.exports = function(ctx) {
   events.onMouseUp  = function(event) {
     isDown = false;
     findTaragetAt(event, ctx, function(target) {
-      event.target = target;
+      event.featureTarget = target;
       currentMode.onMouseUp(event);
     });
   };
@@ -76,8 +76,8 @@ module.exports = function(ctx) {
       ctx.map.on('dblclick', events.onDoubleClick);
       ctx.map.on('mousemove', events.onMouseMove);
 
-      ctx.container.addEventListener('mousedown', events.onMouseDown);
-      ctx.container.addEventListener('mouseup', events.onMouseUp);
+      ctx.map.on('mousedown', events.onMouseDown);
+      ctx.map.on('mouseup', events.onMouseUp);
 
       ctx.container.addEventListener('keydown', events.onKeyDown);
       ctx.container.addEventListener('keyup', events.onKeyUp);

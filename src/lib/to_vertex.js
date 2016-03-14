@@ -1,10 +1,12 @@
 
-module.exports = function(coord, properties) {
+module.exports = function(parent, coord, path) {
   return {
       type: 'Feature',
-      properties: Object.assign(properties, {
+      properties: {
         meta: 'vertex',
-      }),
+        parent: parent,
+        path: path
+      },
       geometry: {
         type: 'Point',
         coordinates: coord
