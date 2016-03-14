@@ -1,15 +1,18 @@
+var hat = require('hat');
 
 var Feature = function(ctx, geojson) {
   this.ctx = ctx;
   this.userProperties = geojson.properties || {};
   this.coordinates = geojson.geometry.coordinates;
-  this.id = geojson.id;
+  this.id = geojson.id || hat();
   this.type = geojson.geometry.type;
 
   this.drawProperties = {
     id: this.id,
     selected: false
   }
+
+  ctx.store.add(this);
 }
 
 Feature.prototype.updateCoordinate = function(path, lon, lat) {
@@ -50,13 +53,17 @@ Feature.prototype.update = function(geojson) {
   this.ctx.store.render();
 }
 
+Feature.prototype.getCoordinates = function() {
+  return this.coordinates;
+}
+
 Feature.prototype.toGeoJSON = function() {
   return JSON.parse(JSON.stringify({
     "id": this.id,
     "type": "Feature",
     "properties": this.userProperties,
     "geometry": {
-      "coordinates": this.coordinates,
+      "coordinates": this.getCoordinates(),
       "type": this.type
     }
   }));

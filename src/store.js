@@ -1,9 +1,11 @@
+var {throttle} =  require('./util');
+var render = require('./render');
+
 var Store = module.exports = function(ctx) {
   this.ctx = ctx;
   this.features = {};
+  this.render = throttle(render, 16, this);
 }
-
-Store.prototype.render = function() {};
 
 Store.prototype.add = function(feature) {
   this.features[feature.id] = feature;

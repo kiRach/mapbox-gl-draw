@@ -21,16 +21,6 @@ module.exports = function(ctx) {
     addTo: function(map) {
         ctx.map = map;
         setup.onAdd(map);
-        if (this.options && this.options.position) {
-            var pos = this.options.position;
-            var corner = map._controlCorners[pos];
-            container.className += ' mapboxgl-ctrl';
-            if (pos.indexOf('bottom') !== -1) {
-                corner.insertBefore(container, corner.firstChild);
-            } else {
-                corner.appendChild(container);
-            }
-        }
         return this;
     },
     remove: function() {
@@ -64,6 +54,7 @@ module.exports = function(ctx) {
       ctx.events.removeEventListeners();
     },
     addLayers: function() {
+      console.log('addLayers', drawTheme.length);
       ctx.map.batch((batch) => {
         // drawn features style
         batch.addSource('draw', {
@@ -76,7 +67,7 @@ module.exports = function(ctx) {
 
         for (let i = 0; i < drawTheme.length; i++) {
           let style = drawTheme[i];
-          Object.assign(style, this.options.styles[style.id] || {});
+          Object.assign(style, ctx.options.styles[style.id] || {});
           batch.addLayer(style);
         }
 
@@ -91,7 +82,7 @@ module.exports = function(ctx) {
 
         for (let i = 0; i < drawSelectedTheme.length; i++) {
           let style = drawSelectedTheme[i];
-          Object.assign(style, this.options.styles[style.id] || {});
+          Object.assign(style, ctx.options.styles[style.id] || {});
           batch.addLayer(style);
         }
         ctx.store.render();

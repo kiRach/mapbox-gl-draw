@@ -8,6 +8,10 @@ var Polygon = function(ctx, geojson) {
 
 Polygon.prototype = Object.create(Feature.prototype);
 
+Polygon.prototype.getCoordinates = function() {
+  return this.coordinates.map(coords => coords.concat([coords[0]]));
+}
+
 Polygon.prototype.forSource = function() {
   return {};
 }
