@@ -1,4 +1,5 @@
 var Feature =  require('./feature');
+
 var drawPoint = require('../modes/draw_point');
 
 var Point = function(ctx, geojson) {
@@ -6,10 +7,6 @@ var Point = function(ctx, geojson) {
 };
 
 Point.prototype = Object.create(Feature.prototype);
-
-Point.prototype.forSource = function() {
-  return {};
-}
 
 Point.startDrawing = function(ctx) {
   var geojson = {

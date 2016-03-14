@@ -1,20 +1,14 @@
-var createMidpoints = require('./lib/create_midpoints');
-var createVertices = require('./lib/create_vertices');
-
 module.exports = function() {
   var isStillAlive = this.ctx.map.getSource('draw') !== undefined;
   if (isStillAlive) { // checks to make sure we still have a map
     var featureBuckets = Object.keys(this.features).reduce((buckets, id) => {
-      let geojson = this.features[id].toGeoJSON();
-      geojson.properties.drawId = id;
+      let sourceFeatures = this.features[id].getSourceFeatures();
 
-
-      if (this.features[id].selected === true) {
-        buckets.selected.push(geojson);
-        buckets.selected = buckets.selected.concat(createMidpoints([this.features[id]], this.ctx.map), createVertices([this.features[id]]));
+      if (true) {
+        buckets.selected = buckets.selected.concat(sourceFeatures)
       }
       else {
-        buckets.deselected.push(geojson);
+        buckets.deselected = buckets.deselected.concat(sourceFeatures)
       }
       return buckets;
     }, { deselected: [], selected: [] });

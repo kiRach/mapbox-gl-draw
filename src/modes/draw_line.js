@@ -33,7 +33,6 @@ module.exports = function(ctx, feature) {
     // did we click on the last point
     // did we click on the first point
     pos++;
-    console.log(feature.coordinates);
   }
 
   var onFinish = function(e) {
@@ -47,13 +46,14 @@ module.exports = function(ctx, feature) {
 
   return {
     start: function() {
+      ctx.ui.setClass('mapbox-gl-draw_mouse-add');
       this.on('onMouseMove', selectAll, onMouseMove);
       this.on('onClick', selectAll, onClick);
       this.on('onKeyUp', isEscapeKey, stopDrawingAndRemove);
       this.on('onKeyUp', isEnterKey, onFinish);
     },
     stop: function() {
-
+      ctx.ui.clearClass();
     }
   }
 }

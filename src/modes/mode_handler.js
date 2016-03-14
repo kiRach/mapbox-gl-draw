@@ -12,6 +12,8 @@ var ModeHandler = function(mode) {
     reset: []
   };
 
+  var lastClass = '';
+
   var ctx = {
     on: function(event, selector, fn) {
       handlers[event].push({
@@ -41,7 +43,7 @@ var ModeHandler = function(mode) {
   mode.start.call(ctx);
 
   return {
-    stop: mode.stop || function(){},
+    stop: mode.stop || function() {},
     onDrag: function(event) {
       delegate('onDrag', event);
     },

@@ -9,6 +9,7 @@ var Feature = function(ctx, geojson) {
 
   this.drawProperties = {
     id: this.id,
+    meta: 'feature',
     selected: false
   }
 
@@ -69,12 +70,20 @@ Feature.prototype.toGeoJSON = function() {
   }));
 }
 
-Feature.prototype.forSource = function() {
-  // this should return an array of features
-  // where each feature is a ui element to be rendered
-  // by gl draw
-  // each feature should have the drawProperties and some reference to get back here
-  return null;
+Feature.prototype.internalGeoJSON = function() {
+    return {
+      "id": this.id,
+      "type": "Feature",
+      "properties": this.drawProperties,
+      "geometry": {
+        "coordinates": this.getCoordinates(),
+        "type": this.type
+      }
+    }
+}
+
+Feature.prototype.getSourceFeatures = function() {
+  return [this.internalGeoJSON()];
 }
 
 module.exports = Feature;

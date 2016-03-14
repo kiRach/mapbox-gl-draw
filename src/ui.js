@@ -1,11 +1,27 @@
-const types = require('./types');
-var {createButton, DOM} = require('./util');
+const types = require('./lib/types');
+var {createButton, DOM} = require('./lib/util');
 
 module.exports = function(ctx) {
 
   var buttons = {};
 
+  var lastClass = undefined;
+
   ctx.ui = {
+    setClass: function(nextClass) {
+      if(lastClass !== undefined) {
+        ctx.container.classList.remove(lastClass);
+      }
+
+      if(nextClass !== undefined) {
+        ctx.container.classList.add(nextClass);
+      }
+
+      lastClass = nextClass;
+    },
+    clearClass: function() {
+      ctx.ui.setClass();
+    },
     addButtons: function() {
       var controlClass = 'mapbox-gl-draw_ctrl-draw-btn';
       var controls = ctx.options.controls;
