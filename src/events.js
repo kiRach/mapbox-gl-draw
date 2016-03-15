@@ -1,6 +1,6 @@
 var ModeHandler = require('./modes/mode_handler');
 var browse = require('./modes/browse');
-var findTaragetAt = require('./lib/find_target_at');
+var findTargetAt = require('./lib/find_target_at');
 
 module.exports = function(ctx) {
 
@@ -14,14 +14,14 @@ module.exports = function(ctx) {
   };
 
   events.onClick = function(event) {
-    findTaragetAt(event, ctx, function(target) {
+    findTargetAt(event, ctx, function(target) {
       event.featureTarget = target;
       currentMode.onClick(event);
     });
   };
 
   events.onDoubleClick = function(event) {
-    findTaragetAt(event, ctx, function(target) {
+    findTargetAt(event, ctx, function(target) {
       event.featureTarget = target;
       currentMode.onDoubleClick(event);
     });
@@ -32,7 +32,7 @@ module.exports = function(ctx) {
       events.onDrag(event);
     }
     else {
-      findTaragetAt(event, ctx, function(target) {
+      findTargetAt(event, ctx, function(target) {
         event.featureTarget = target;
         currentMode.onMouseMove(event);
       });
@@ -41,7 +41,7 @@ module.exports = function(ctx) {
 
   events.onMouseDown  = function(event) {
     isDown = true;
-    findTaragetAt(event, ctx, function(target) {
+    findTargetAt(event, ctx, function(target) {
       event.featureTarget = target;
       currentMode.onMouseDown(event);
     });
@@ -49,7 +49,7 @@ module.exports = function(ctx) {
 
   events.onMouseUp  = function(event) {
     isDown = false;
-    findTaragetAt(event, ctx, function(target) {
+    findTargetAt(event, ctx, function(target) {
       event.featureTarget = target;
       currentMode.onMouseUp(event);
     });
