@@ -80,17 +80,19 @@ Polygon.prototype.getSourceFeatures = function() {
   var midpoints = [];
   var vertices = [];
 
-  for (var i = 0; i<geojson.geometry.coordinates.length; i++) {
-    var ring = geojson.geometry.coordinates[i];
-    for (var j = 0; j<ring.length; j++) {
-      var coord = ring[j];
-      var path = `${i}.${j}`;
-      vertices.push(toVertex(this.id, coord, path, this.selectedCoords[path] || false));
+  if (this.drawProperties.direct_selected) {
+    for (var i = 0; i<geojson.geometry.coordinates.length; i++) {
+      var ring = geojson.geometry.coordinates[i];
+      for (var j = 0; j<ring.length; j++) {
+        var coord = ring[j];
+        var path = `${i}.${j}`;
+        vertices.push(toVertex(this.id, coord, path, this.selectedCoords[path] || false));
 
-      if (j > 0) {
-        var start = vertices[j-1];
-        var end = vertices[j];
-        midpoints.push(toMidpoint(this.id, start, end, this.ctx.map));
+        if (j > 0) {
+          var start = vertices[j-1];
+          var end = vertices[j];
+          midpoints.push(toMidpoint(this.id, start, end, this.ctx.map));
+        }
       }
     }
   }

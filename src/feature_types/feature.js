@@ -10,7 +10,8 @@ var Feature = function(ctx, geojson) {
   this.drawProperties = {
     id: this.id,
     meta: 'feature',
-    selected: false
+    selected: false,
+    direct_selected: false
   }
 
   ctx.store.add(this);

@@ -1,5 +1,5 @@
 var ModeHandler = require('./modes/mode_handler');
-var browse = require('./modes/browse');
+var featureSelect = require('./modes/feature_select');
 var findTargetAt = require('./lib/find_target_at');
 
 module.exports = function(ctx) {
@@ -7,7 +7,7 @@ module.exports = function(ctx) {
   var isDown = false;
 
   var events = {};
-  var currentMode = ModeHandler(browse(ctx));
+  var currentMode = ModeHandler(featureSelect(ctx));
 
   events.drag = function(event) {
     currentMode.drag(event);
@@ -71,9 +71,10 @@ module.exports = function(ctx) {
     startMode: function(mode) {
       currentMode.stop();
       currentMode = ModeHandler(mode);
+      ctx.store.render();
     },
     stopMode: function() {
-      api.startMode(browse(ctx));
+      api.startMode(featureSelect(ctx));
     },
     fire: function(name, event) {
       if (events[name]) {
