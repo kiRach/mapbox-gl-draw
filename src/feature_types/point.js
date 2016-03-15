@@ -8,8 +8,12 @@ var Point = function(ctx, geojson) {
 
 Point.prototype = Object.create(Feature.prototype);
 
-Point.prototype.addVertex = function() {
-  throw new Error('addVertex cannot be called on a Point');
+Point.prototype.addCoordinate = function() {
+  throw new Error('addCoordinate cannot be called on a Point');
+}
+
+Point.prototype.selectCoordinate = function() {
+  this.select();
 }
 
 Point.startDrawing = function(ctx) {

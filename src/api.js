@@ -102,7 +102,19 @@ API.prototype.deleteAll = function() {
   this.ctx.store.getAll().forEach(feature => this.ctx.store.delete(feature.id));
 }
 
+API.prototype.deleteSelected = function() {
+  this.ctx.store.getAll().forEach(feature => {
+    if (feature.isSelected() ) {
+      this.ctx.store.delete(feature.id);
+    }
+    else if (feature.deleteSelectedCoords) {
+      feature.deleteSelectedCoords();
+    }
+  });
+}
+
 API.prototype.startDrawing = function (type) {
+  console.log('startDrawing', type);
   var model = featureTypes[typeMap[type]];
 
   if(model === undefined) {

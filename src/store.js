@@ -7,6 +7,19 @@ var Store = module.exports = function(ctx) {
   this.render = throttle(render, 16, this);
 }
 
+Store.prototype.batch = function(fn) {
+  var renderCount = 0;
+  var render = this.render;
+  this.render = function() {
+    renderCount++;
+  }
+  fn();
+  this.render = render;
+  if (renderCount > 0) {
+    this.render();
+  }
+}
+
 Store.prototype.add = function(feature) {
   this.features[feature.id] = feature;
   return feature.id;

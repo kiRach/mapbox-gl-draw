@@ -36,7 +36,9 @@ module.exports = function(ctx, feature) {
   }
 
   var onFinish = function(e) {
-    if(pos < 3) {
+    feature.removeCoordinate(`0.${pos}`);
+    pos--;
+    if(pos < 2) {
       stopDrawingAndRemove();
     }
     else {

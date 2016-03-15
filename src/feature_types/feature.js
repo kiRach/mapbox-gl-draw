@@ -35,16 +35,16 @@ Feature.prototype.updateCoordinate = function(path, lng, lat) {
 }
 
 Feature.prototype.isSelected = function() {
-  return this.drawProperties.selected;
+  return this.drawProperties.selected === 'true';
 }
 
 Feature.prototype.select = function() {
-  this.drawProperties.selected = true;
+  this.drawProperties.selected = 'true';
   this.ctx.store.render();
 }
 
 Feature.prototype.unselect = function() {
-  this.drawProperties.selected = false;
+  this.drawProperties.selected = 'false';
   this.ctx.store.render();
 }
 
