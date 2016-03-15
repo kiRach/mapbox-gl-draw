@@ -9,58 +9,62 @@ module.exports = function(ctx) {
   var events = {};
   var currentMode = ModeHandler(browse(ctx));
 
-  events.onDrag = function(event) {
-    currentMode.onDrag(event);
+  events.drag = function(event) {
+    currentMode.drag(event);
   };
 
-  events.onClick = function(event) {
+  events.click = function(event) {
     findTargetAt(event, ctx, function(target) {
       event.featureTarget = target;
-      currentMode.onClick(event);
+      currentMode.click(event);
     });
   };
 
-  events.onDoubleClick = function(event) {
+  events.doubleclick = function(event) {
     findTargetAt(event, ctx, function(target) {
       event.featureTarget = target;
-      currentMode.onDoubleClick(event);
+      currentMode.doubleclick(event);
     });
   };
 
-  events.onMouseMove  = function(event) {
+  events.mousemove  = function(event) {
     if (isDown) {
-      events.onDrag(event);
+      events.drag(event);
     }
     else {
       findTargetAt(event, ctx, function(target) {
         event.featureTarget = target;
-        currentMode.onMouseMove(event);
+        currentMode.mousemove(event);
       });
     }
   };
 
-  events.onMouseDown  = function(event) {
+  events.mousedown  = function(event) {
     isDown = true;
     findTargetAt(event, ctx, function(target) {
       event.featureTarget = target;
-      currentMode.onMouseDown(event);
+      currentMode.mousedown(event);
     });
   };
 
-  events.onMouseUp  = function(event) {
+  events.mouseup  = function(event) {
     isDown = false;
     findTargetAt(event, ctx, function(target) {
       event.featureTarget = target;
-      currentMode.onMouseUp(event);
+      currentMode.mouseup(event);
     });
   };
 
-  events.onKeyDown  = function(event) {
-    currentMode.onKeyDown(event);
+  events.delete = function(event) {
+    currentMode.delete(event);
+  }
+
+  events.keydown  = function(event) {
+    currentMode.keydown(event);
   };
 
-  events.onKeyUp  = function(event) {
-    currentMode.onKeyUp(event);
+  events.keyup  = function(event) {
+    currentMode.keyup(event);
   }
 
   var api = {
@@ -71,25 +75,30 @@ module.exports = function(ctx) {
     stopMode: function() {
       api.startMode(browse(ctx));
     },
+    fire: function(name, event) {
+      if (events[name]) {
+        events[name](event);
+      }
+    },
     addEventListeners: function() {
-      ctx.map.on('click', events.onClick);
-      ctx.map.on('dblclick', events.onDoubleClick);
-      ctx.map.on('mousemove', events.onMouseMove);
+      ctx.map.on('click', events.click);
+      ctx.map.on('dblclick', events.doubleclick);
+      ctx.map.on('mousemove', events.mousemove);
 
-      ctx.map.on('mousedown', events.onMouseDown);
-      ctx.map.on('mouseup', events.onMouseUp);
+      ctx.map.on('mousedown', events.mousedown);
+      ctx.map.on('mouseup', events.mouseup);
 
-      ctx.container.addEventListener('keydown', events.onKeyDown);
-      ctx.container.addEventListener('keyup', events.onKeyUp);
+      ctx.container.addEventListener('keydown', events.keydown);
+      ctx.container.addEventListener('keyup', events.keyup);
     },
     removeEventListeners: function() {
-      ctx.map.off('click', events.onClick);
-      ctx.map.off('dblclick', events.onDoubleClick);
-      ctx.map.off('mousemove', events.onMouseMove);
-      ctx.container.removeEventListener('mousedown', events.onMouseDown);
-      ctx.container.removeEventListener('mouseup', events.onMouseUp);
-      ctx.container.removeEventListener('keydown', events.onKeyDown);
-      ctx.container.removeEventListener('keyup', events.onKeyUp);
+      ctx.map.off('click', events.click);
+      ctx.map.off('dblclick', events.doubleclick);
+      ctx.map.off('mousemove', events.mousemove);
+      ctx.container.removeEventListener('mousedown', events.mousedown);
+      ctx.container.removeEventListener('mouseup', events.mouseup);
+      ctx.container.removeEventListener('keydown', events.keydown);
+      ctx.container.removeEventListener('keyup', events.keyup);
     }
   }
 

@@ -32,9 +32,9 @@ module.exports = function(ctx) {
 
   return {
     start: function() {
-      this.on('onMouseDown', isOfMetaType('vertex', ctx), onVertex);
-      this.on('onMouseDown', isOfMetaType('midpoint', ctx), onMidpoint);
-      this.on('onClick', noFeature, onNoFeatureClick);
+      this.on('mousedown', isOfMetaType('vertex', ctx), onVertex);
+      this.on('mousedown', isOfMetaType('midpoint', ctx), onMidpoint);
+      this.on('click', noFeature, onNoFeatureClick);
     },
     stop: function() {
       console.log('I guess you don\' want to browse any more');

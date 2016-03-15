@@ -1,4 +1,4 @@
-var {throttle} =  require('./util');
+var {throttle} =  require('./lib/util');
 var render = require('./render');
 
 var Store = module.exports = function(ctx) {

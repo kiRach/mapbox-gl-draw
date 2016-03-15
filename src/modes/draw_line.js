@@ -17,12 +17,31 @@ module.exports = function(ctx, feature) {
     ctx.store.delete(feature.id);
   }
 
+  var pos = 0
+
   var onMouseMove = function(e) {
-    feature.updateCoordinate('', e.lngLat.lng, e.lngLat.lat);
+    if(pos === 0) {
+      feature.updateCoordinate(0, e.lngLat.lng, e.lngLat.lat);
+      feature.updateCoordinate(1, e.lngLat.lng, e.lngLat.lat);
+    }
+    else {
+      feature.updateCoordinate(pos, e.lngLat.lng, e.lngLat.lat);
+    }
   }
 
   var onClick = function(e) {
-    ctx.events.stopMode();
+    // did we click on the last point
+    // did we click on the first point
+    pos++;
+  }
+
+  var onFinish = function(e) {
+    if(pos < 2) {
+      stopDrawingAndRemove();
+    }
+    else {
+      ctx.events.stopMode();
+    }
   }
 
   return {
@@ -31,7 +50,7 @@ module.exports = function(ctx, feature) {
       this.on('mousemove', selectAll, onMouseMove);
       this.on('click', selectAll, onClick);
       this.on('keyup', isEscapeKey, stopDrawingAndRemove);
-      this.on('keyup', isEnterKey, stopDrawingAndRemove);
+      this.on('keyup', isEnterKey, onFinish);
     },
     stop: function() {
       ctx.ui.clearClass();

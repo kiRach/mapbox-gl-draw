@@ -49,10 +49,10 @@ module.exports = function(ctx, feature) {
   return {
     start: function() {
       ctx.ui.setClass('mapbox-gl-draw_mouse-add');
-      this.on('onMouseMove', selectAll, onMouseMove);
-      this.on('onClick', selectAll, onClick);
-      this.on('onKeyUp', isEscapeKey, stopDrawingAndRemove);
-      this.on('onKeyUp', isEnterKey, onFinish);
+      this.on('mousemove', selectAll, onMouseMove);
+      this.on('click', selectAll, onClick);
+      this.on('keyup', isEscapeKey, stopDrawingAndRemove);
+      this.on('keyup', isEnterKey, onFinish);
     },
     stop: function() {
       ctx.ui.clearClass();

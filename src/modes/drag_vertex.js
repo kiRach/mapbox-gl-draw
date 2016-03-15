@@ -37,11 +37,11 @@ module.exports = function(ctx, startPos) {
 
   return {
     start: function() {
-      this.on('onDrag', function(e) {
+      this.on('drag', function(e) {
         e.originalEvent.stopPropagation();
         changeFns.forEach(fn => fn(e.lngLat));
       });
-      this.on('onMouseUp', function() {
+      this.on('mouseup', function() {
         ctx.events.stopMode();
       });
     },
