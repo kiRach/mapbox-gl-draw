@@ -49,7 +49,7 @@ module.exports = function(ctx) {
   };
 
   api.add = function (geojson) {
-    var errors = geojsonhint.hint(geojson).filter(e => e.level !== 'message');
+    var errors = geojsonhint.hint(geojson).filter(e => e.level === 'error');
     if (errors.length) {
       throw new Error(errors[0].message);
     }
